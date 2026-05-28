@@ -1,0 +1,166 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Entity validations
+    function isValidEnvironmental(r) {
+      return r.id is string && r.id.size() <= 128
+        && r.tanggal is string && r.tanggal.size() <= 30
+        && r.pH is number && r.pH >= 0.0 && r.pH <= 14.0
+        && r.TSS is number && r.TSS >= 0.0
+        && r.debit is number && r.debit >= 0.0
+        && r.koagulan is string && r.koagulan.size() <= 100
+        && r.koagulanAmount is number && r.koagulanAmount >= 0.0
+        && r.curahHujan is number && r.curahHujan >= 0.0
+        && r.lokasi is string && r.lokasi.size() <= 200
+        && r.userId == request.auth.uid;
+    }
+
+    function isValidWasteIncoming(r) {
+      return r.id is string && r.id.size() <= 128
+        && r.tanggal is string && r.tanggal.size() <= 30
+        && r.kodeLimbah is string && r.kodeLimbah.size() <= 50
+        && r.jenisLimbah is string && r.jenisLimbah.size() <= 200
+        && r.sumber is string && r.sumber.size() <= 200
+        && r.jumlah is number && r.jumlah >= 0.0
+        && r.statusPenyimpanan is string && r.statusPenyimpanan.size() <= 200
+        && r.userId == request.auth.uid;
+    }
+
+    function isValidWasteOutgoing(r) {
+      return r.id is string && r.id.size() <= 128
+        && r.tanggal is string && r.tanggal.size() <= 30
+        && r.kodeLimbah is string && r.kodeLimbah.size() <= 50
+        && r.jenisLimbah is string && r.jenisLimbah.size() <= 200
+        && r.jumlah is number && r.jumlah >= 0.0
+        && r.tujuanPengiriman is string && r.tujuanPengiriman.size() <= 200
+        && r.nomorManifest is string && r.nomorManifest.size() <= 100
+        && r.userId == request.auth.uid;
+    }
+
+    function isValidNursery(r) {
+      return r.id is string && r.id.size() <= 128
+        && r.tanggalInput is string && r.tanggalInput.size() <= 30
+        && r.namaSpesies is string && r.namaSpesies.size() <= 200
+        && r.jumlahBibit is number && r.jumlahBibit >= 0
+        && (r.kondisi == 'Sehat' || r.kondisi == 'Kurang Sehat' || r.kondisi == 'Mati')
+        && r.tanggalSemai is string && r.tanggalSemai.size() <= 30
+        && r.targetPenanaman is string && r.targetPenanaman.size() <= 200
+        && r.userId == request.auth.uid;
+    }
+
+    function isValidReclamation(r) {
+      return r.id is string && r.id.size() <= 128
+        && r.tanggalPelaksanaan is string && r.tanggalPelaksanaan.size() <= 30
+        && r.areaBlok is string && r.areaBlok.size() <= 100
+        && r.luas is number && r.luas >= 0.0
+        && r.ketebalanTopsoil is number && r.ketebalanTopsoil >= 0.0
+        && r.spesiesDitanam is string && r.spesiesDitanam.size() <= 500
+        && (r.statusPembentukanLereng == 'Selesai' || r.statusPembentukanLereng == 'Dalam Proses' || r.statusPembentukanLereng == 'Kritis')
+        && r.rencanaKemajuan is number && r.rencanaKemajuan >= 0 && r.rencanaKemajuan <= 100
+        && r.userId == request.auth.uid;
+    }
+
+    function isValidGuarantee(r) {
+      return r.id is string && r.id.size() <= 128
+        && r.tahun is number && r.tahun >= 1900 && r.tahun <= 2100
+        && r.nilaiJaminan is number && r.nilaiJaminan >= 0.0
+        && r.tanggalPenyetoran is string && r.tanggalPenyetoran.size() <= 30
+        && r.bankPenjamin is string && r.bankPenjamin.size() <= 200
+        && (r.status == 'Aktif' || r.status == 'Dicairkan' || r.status == 'Kedaluwarsa')
+        && r.userId == request.auth.uid;
+    }
+
+    // Rules for individual collections
+    match /environmental/{recordId} {
+      allow get: if isSignedIn() && existing().userId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(recordId) && isValidEnvironmental(incoming()) && incoming().createdAt == request.time;
+      allow update: if isSignedIn() && isValidId(recordId) && isValidEnvironmental(incoming()) 
+                     && incoming().createdAt == existing().createdAt 
+                     && incoming().userId == existing().userId
+                     && incoming().id == existing().id;
+      allow delete: if isSignedIn() && existing().userId == request.auth.uid;
+    }
+
+    match /waste_incoming/{recordId} {
+      allow get: if isSignedIn() && existing().userId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(recordId) && isValidWasteIncoming(incoming()) && incoming().createdAt == request.time;
+      allow update: if isSignedIn() && isValidId(recordId) && isValidWasteIncoming(incoming()) 
+                     && incoming().createdAt == existing().createdAt 
+                     && incoming().userId == existing().userId
+                     && incoming().id == existing().id;
+      allow delete: if isSignedIn() && existing().userId == request.auth.uid;
+    }
+
+    match /waste_outgoing/{recordId} {
+      allow get: if isSignedIn() && existing().userId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(recordId) && isValidWasteOutgoing(incoming()) && incoming().createdAt == request.time;
+      allow update: if isSignedIn() && isValidId(recordId) && isValidWasteOutgoing(incoming()) 
+                     && incoming().createdAt == existing().createdAt 
+                     && incoming().userId == existing().userId
+                     && incoming().id == existing().id;
+      allow delete: if isSignedIn() && existing().userId == request.auth.uid;
+    }
+
+    match /nursery/{recordId} {
+      allow get: if isSignedIn() && existing().userId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(recordId) && isValidNursery(incoming()) && incoming().createdAt == request.time;
+      allow update: if isSignedIn() && isValidId(recordId) && isValidNursery(incoming()) 
+                     && incoming().createdAt == existing().createdAt 
+                     && incoming().userId == existing().userId
+                     && incoming().id == existing().id;
+      allow delete: if isSignedIn() && existing().userId == request.auth.uid;
+    }
+
+    match /reclamation/{recordId} {
+      allow get: if isSignedIn() && existing().userId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(recordId) && isValidReclamation(incoming()) && incoming().createdAt == request.time;
+      allow update: if isSignedIn() && isValidId(recordId) && isValidReclamation(incoming()) 
+                     && incoming().createdAt == existing().createdAt 
+                     && incoming().userId == existing().userId
+                     && incoming().id == existing().id;
+      allow delete: if isSignedIn() && existing().userId == request.auth.uid;
+    }
+
+    match /reclamation_guarantees/{recordId} {
+      allow get: if isSignedIn() && existing().userId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(recordId) && isValidGuarantee(incoming()) && incoming().createdAt == request.time;
+      allow update: if isSignedIn() && isValidId(recordId) && isValidGuarantee(incoming()) 
+                     && incoming().createdAt == existing().createdAt 
+                     && incoming().userId == existing().userId
+                     && incoming().id == existing().id;
+      allow delete: if isSignedIn() && existing().userId == request.auth.uid;
+    }
+  }
+}

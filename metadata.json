@@ -1,0 +1,8 @@
+{
+  "name": "DivaMonitor",
+  "description": "Sistem Pemantauan dan Kepatuhan Lingkungan PT Diva Kencana Borneo",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

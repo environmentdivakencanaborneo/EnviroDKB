@@ -1,0 +1,321 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;750&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Custom High Density Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0C10;
+}
+::-webkit-scrollbar-thumb {
+  background: #232D3F;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #323F55;
+}
+
+/* Markdown styling inside dark body */
+.markdown-body {
+  color: #94A3B8;
+  font-size: 11px;
+}
+.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {
+  color: #F8FAFC;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+.markdown-body h1 {
+  font-size: 16px;
+}
+.markdown-body h2 {
+  font-size: 13px;
+  border-bottom: 1px solid #1E293B;
+  padding-bottom: 0.25rem;
+}
+.markdown-body h3 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #10B981;
+}
+.markdown-body p {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+.markdown-body ul, .markdown-body ol {
+  margin-left: 1.25rem;
+  margin-bottom: 0.5rem;
+  list-style-type: decimal;
+}
+.markdown-body ul {
+  list-style-type: disc;
+}
+.markdown-body blockquote {
+  border-left: 2px solid #10B981;
+  padding-left: 0.5rem;
+  color: #64748B;
+  margin-bottom: 0.5rem;
+  font-style: italic;
+}
+.markdown-body pre {
+  background: #0F131A;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #1E293B;
+  overflow-x: auto;
+  margin-bottom: 0.5rem;
+}
+.markdown-body code {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  background: #11141B;
+  padding: 0.125rem 0.25rem;
+  border-radius: 3px;
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  #app-sidebar, #app-header, .print\:hidden {
+    display: none !important;
+  }
+}
+
+/* --- COMPREHENSIVE PT DIVA KENCANA BORNEO LIGHT THEME SKIN --- */
+
+/* 1. Global scrollbars and core variables */
+::-webkit-scrollbar-track {
+  background: #F8FAFC !important;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1 !important;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8 !important;
+}
+
+/* 2. Page & Layout Containers */
+.flex.h-screen.bg-\[\#0A0C10\] {
+  background-color: #F1F5F9 !important; /* Elegant light-gray outer canvas background */
+}
+header#app-header {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #0F172A !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03) !important;
+}
+header#app-header h2 {
+  color: #1E293B !important;
+}
+
+/* 3. Sidebar Specific Styling */
+#app-sidebar {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #1E293B !important;
+  box-shadow: 2px 0 8px 0 rgba(0, 0, 0, 0.02) !important;
+}
+#app-sidebar p[class*="text-slate-605"] {
+  color: #64748B !important;
+}
+#app-sidebar button {
+  color: #475569 !important;
+}
+#app-sidebar button:hover {
+  background-color: #F8FAFC !important;
+  color: #0F172A !important;
+}
+/* Ensure the active/highlighted menu buttons in Sidebar look outstanding */
+#app-sidebar button[class*="bg-emerald-600"],
+#app-sidebar button[class*="text-emerald-400"] {
+  background-color: #059669 !important; /* Emerald 600 */
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2) !important;
+}
+#app-sidebar button[class*="text-orange-400"] {
+  background-color: #EA580C !important; /* Orange 600 */
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 6px -1px rgba(234, 88, 12, 0.2) !important;
+}
+/* Left border in submenu folders */
+#app-sidebar div[class*="border-slate-800"] {
+  border-color: #E2E8F0 !important;
+}
+
+/* 4. Global Card component overrides */
+div[class*="bg-[#0F131A]"],
+div[class*="bg-[#0f131a]"],
+.bg-\[\#0F131A\],
+.bg-\[\#0f131a\] {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #1E293B !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 5. Subcontainers, inner forms, tabs and details sections */
+div[class*="bg-[#121620]"],
+div[class*="bg-[#121620]/50"],
+.bg-\[\#121620\],
+/* Dashboard stat indicator cards and environment metrics */
+div[class*="bg-[#10141D]"],
+.bg-\[\#10141D\] {
+  background-color: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+  color: #334155 !important;
+}
+
+/* Deep inner cards or custom backgrounds of lists */
+div[class*="bg-[#0A0C10]"],
+div[class*="bg-[#11151E]"],
+div[class*="bg-[#11141B]"],
+div[class*="bg-[#0E1117]"],
+div[class*="bg-[#0E111A]"],
+div[class*="bg-[#131620]"],
+.bg-\[\#0A0C10\],
+.bg-\[\#11151E\],
+.bg-\[\#11141B\],
+.bg-\[\#0E1117\],
+.bg-\[\#0E111A\],
+.bg-\[\#131620\] {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #334155 !important;
+}
+
+/* Tabs active states */
+button[class*="bg-slate-800/40"],
+button[class*="bg-slate-800"] {
+  background-color: #E2E8F0 !important;
+  color: #0F172A !important;
+}
+
+/* Overriding text colors */
+.text-slate-100, .text-slate-200, .text-slate-300, .text-stone-300 {
+  color: #1E293B !important;
+}
+.text-slate-400, .text-slate-450, .text-slate-505, .text-slate-605 {
+  color: #475569 !important;
+}
+.text-white {
+  /* Only override white text that represents text copy, not buttons! */
+  color: #0F172A;
+}
+/* Ensure clean headings format */
+h1, h2, h3, h4, h5, h6 {
+  color: #0F172A !important;
+}
+
+/* 6. Form elements: Text Inputs, Textareas, Select elements */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+  background-color: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  color: #0F172A !important;
+}
+input::placeholder {
+  color: #94A3B8 !important;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: #10B981 !important;
+  outline: none !important;
+  --tw-ring-color: #10B981 !important;
+}
+
+/* 7. Beautiful Tables styling */
+tr[class*="bg-[#131722]"],
+.bg-\[\#131722\] {
+  background-color: #F1F5F9 !important;
+  color: #334155 !important;
+  border-color: #E2E8F0 !important;
+}
+th {
+  color: #334155 !important;
+  font-weight: 600 !important;
+}
+table {
+  background-color: #FFFFFF !important;
+  color: #334155 !important;
+}
+tr {
+  background-color: #FFFFFF !important;
+  border-bottom-color: #F1F5F9 !important;
+}
+tr:hover {
+  background-color: #F8FAFC !important;
+}
+td {
+  color: #334155 !important;
+}
+.divide-slate-850 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #E2E8F0 !important;
+}
+
+/* 8. Overriding active badge/pill borders */
+span[class*="bg-emerald-500/10"] {
+  background-color: #DEF7EC !important;
+  color: #03543F !important;
+  border-color: #BCF0DA !important;
+}
+span[class*="bg-amber-500/10"] {
+  background-color: #FEF3C7 !important;
+  color: #92400E !important;
+  border-color: #FDE68A !important;
+}
+span[class*="bg-red-500/10"] {
+  background-color: #FDE8E8 !important;
+  color: #9B1C1C !important;
+  border-color: #FBD5D5 !important;
+}
+
+/* 9. Supporting Markdown content */
+.markdown-body {
+  color: #334155 !important;
+}
+.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {
+  color: #0F172A !important;
+}
+.markdown-body h2 {
+  border-bottom-color: #E2E8F0 !important;
+}
+.markdown-body pre {
+  background-color: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+}
+.markdown-body code {
+  background-color: #F1F5F9 !important;
+  color: #0F172A !important;
+}
+
+/* 10. Dashboard specific graph indicators and lines */
+text[class*="recharts-text"] {
+  fill: #64748B !important;
+}
+path[class*="recharts-cartesian-grid"] {
+  stroke: #E2E8F0 !important;
+}
+/* Recharts tooltip overrides */
+div[class*="recharts-default-tooltip"] {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+  color: #0F172A !important;
+}
+

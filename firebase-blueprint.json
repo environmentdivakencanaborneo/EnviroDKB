@@ -1,0 +1,136 @@
+{
+  "entities": {
+    "EnvironmentalRecord": {
+      "title": "EnvironmentalRecord",
+      "description": "Log harian kualitas air dan cuaca di area tambang",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "tanggal": { "type": "string" },
+        "pH": { "type": "number" },
+        "TSS": { "type": "number" },
+        "debit": { "type": "number" },
+        "koagulan": { "type": "string" },
+        "koagulanAmount": { "type": "number" },
+        "curahHujan": { "type": "number" },
+        "lokasi": { "type": "string" },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "tanggal", "pH", "TSS", "debit", "koagulan", "koagulanAmount", "curahHujan", "lokasi", "userId", "createdAt"]
+    },
+    "WasteIncomingRecord": {
+      "title": "WasteIncomingRecord",
+      "description": "Log masuk limbah B3",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "tanggal": { "type": "string" },
+        "kodeLimbah": { "type": "string" },
+        "jenisLimbah": { "type": "string" },
+        "sumber": { "type": "string" },
+        "jumlah": { "type": "number" },
+        "statusPenyimpanan": { "type": "string" },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "tanggal", "kodeLimbah", "jenisLimbah", "sumber", "jumlah", "statusPenyimpanan", "userId", "createdAt"]
+    },
+    "WasteOutgoingRecord": {
+      "title": "WasteOutgoingRecord",
+      "description": "Log keluar limbah B3",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "tanggal": { "type": "string" },
+        "kodeLimbah": { "type": "string" },
+        "jenisLimbah": { "type": "string" },
+        "jumlah": { "type": "number" },
+        "tujuanPengiriman": { "type": "string" },
+        "nomorManifest": { "type": "string" },
+        "fileDriveId": { "type": "string" },
+        "fileUrl": { "type": "string" },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "tanggal", "kodeLimbah", "jenisLimbah", "jumlah", "tujuanPengiriman", "nomorManifest", "userId", "createdAt"]
+    },
+    "NurseryRecord": {
+      "title": "NurseryRecord",
+      "description": "Log pembibitan reklamasi",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "tanggalInput": { "type": "string" },
+        "namaSpesies": { "type": "string" },
+        "jumlahBibit": { "type": "number" },
+        "kondisi": { "type": "string", "enum": ["Sehat", "Kurang Sehat", "Mati"] },
+        "tanggalSemai": { "type": "string" },
+        "targetPenanaman": { "type": "string" },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "tanggalInput", "namaSpesies", "jumlahBibit", "kondisi", "tanggalSemai", "targetPenanaman", "userId", "createdAt"]
+    },
+    "ReclamationRecord": {
+      "title": "ReclamationRecord",
+      "description": "Log pelaksanaan reklamasi lahan tambang",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "tanggalPelaksanaan": { "type": "string" },
+        "areaBlok": { "type": "string" },
+        "luas": { "type": "number" },
+        "ketebalanTopsoil": { "type": "number" },
+        "spesiesDitanam": { "type": "string" },
+        "statusPembentukanLereng": { "type": "string", "enum": ["Selesai", "Dalam Proses", "Kritis"] },
+        "rencanaKemajuan": { "type": "number" },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "tanggalPelaksanaan", "areaBlok", "luas", "ketebalanTopsoil", "spesiesDitanam", "statusPembentukanLereng", "rencanaKemajuan", "userId", "createdAt"]
+    },
+    "ReclamationGuaranteeRecord": {
+      "title": "ReclamationGuaranteeRecord",
+      "description": "Log dana jaminan reklamasi batubara",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "tahun": { "type": "number" },
+        "nilaiJaminan": { "type": "number" },
+        "tanggalPenyetoran": { "type": "string" },
+        "bankPenjamin": { "type": "string" },
+        "status": { "type": "string", "enum": ["Aktif", "Dicairkan", "Kedaluwarsa"] },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "tahun", "nilaiJaminan", "tanggalPenyetoran", "bankPenjamin", "status", "userId", "createdAt"]
+    }
+  },
+  "firestore": {
+    "environmental": {
+      "schema": "EnvironmentalRecord",
+      "description": "Koleksi data pemantauan lingkungan harian"
+    },
+    "waste_incoming": {
+      "schema": "WasteIncomingRecord",
+      "description": "Koleksi data limbah B3 masuk"
+    },
+    "waste_outgoing": {
+      "schema": "WasteOutgoingRecord",
+      "description": "Koleksi data limbah B3 keluar dan pengiriman"
+    },
+    "nursery": {
+      "schema": "NurseryRecord",
+      "description": "Koleksi data pembititan reklamasi (nursery)"
+    },
+    "reclamation": {
+      "schema": "ReclamationRecord",
+      "description": "Koleksi data reklamasi lahan tambang"
+    },
+    "reclamation_guarantees": {
+      "schema": "ReclamationGuaranteeRecord",
+      "description": "Koleksi jaminan finansial reklamasi"
+    }
+  }
+}
